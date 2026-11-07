@@ -257,6 +257,16 @@ in, so there is no port forwarding, public IP, domain or certificate.
    - Set Ollama `keep_alive` to a few minutes so the model frees VRAM when you
      want to game.
 
+   **Our hardware:** Windows PC with a GTX 1660 (6 GB VRAM) and 16 GB of RAM.
+   - Candidate models: 3–4B models fit easily, and 7–8B models fit at 4-bit
+     with a short context. Our prompts are short, so a short context is fine.
+   - Expect about 3–6 s per message.
+   - Shortlist to benchmark on real Hebrew and English messages: a ~4B
+     Gemma-class model, a 7–8B Qwen-class model, and DictaLM (Hebrew-tuned).
+   - Vision: a ~4B vision model fits, which is OK for printed text and
+     products. Handwritten Hebrew is out of reach, so use barcodes, or
+     (optionally) send only those photos to a cloud API for cents.
+
 What you lose without Claude: understanding of loose phrasing ("we're out of
 the stuff for the kids' sandwiches") and reading of handwritten photos.
 
