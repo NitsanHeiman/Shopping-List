@@ -184,13 +184,28 @@ recommendations (M5–M7) are the larger, independent second phase.
 
 ---
 
-## 6. Running costs (rough)
-- Hosting: about $0–5 a month (Oracle free tier, a Pi, or the cheapest
-  Hetzner VPS).
-- LLM: a few dozen short messages a week. Use the small model for text and the
-  vision model only for photos, so expect very low cost. Set a monthly spend
-  limit in the Anthropic console.
-- Telegram, price data, OpenStreetMap: free.
+## 6. Running costs
+
+| Item | Cost | Notes |
+|---|---|---|
+| Telegram bot | Free | |
+| Supermarket price files | Free | Published by law |
+| Geocoding (OpenStreetMap) | Free | Store addresses are geocoded once, then cached |
+| **Claude API** | **Under $1 a month** | Prepaid credits; the minimum top-up lasts months |
+| **Hosting** | **$0–5 a month** | Oracle free tier = $0; Hetzner VPS ≈ €4–5; Raspberry Pi ≈ $60–100 once, plus electricity |
+| Domain / HTTPS | Free | The bot uses long polling, so it needs no public URL |
+
+**Claude API estimate** (assuming about 100 text messages and 20 photos a month):
+- Text goes to Claude Haiku 5.5 ($0.10 / $0.50 per million input/output
+  tokens). About 1.5K tokens in and 0.7K out per message comes to roughly
+  $0.0005 each, or about **$0.05 a month**.
+- Photos go to Claude Sonnet 5.5 ($2 / $10 per million tokens). About 3K
+  tokens in and 1K out per photo comes to roughly $0.016 each, or about
+  **$0.30 a month**. Haiku can also read photos; try it first and switch to
+  Sonnet only if handwriting recognition is poor.
+- Product matching adds a few cents a month, and less over time as the bot
+  learns your preferences.
+- Set a monthly spend limit in the Anthropic Console as a safety net.
 
 ---
 
