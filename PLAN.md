@@ -209,6 +209,42 @@ recommendations (M5–M7) are the larger, independent second phase.
 
 ---
 
+## 6b. Zero-cost variant (no Claude API, no paid hosting)
+
+**Hosting on the home PC that is always on.** The bot uses long polling: it
+connects out to Telegram and asks for new messages. Nothing has to connect
+in, so there is no port forwarding, public IP, domain or certificate.
+- Run it with Docker Desktop (restart policy `always`), or as a service
+  (systemd on Linux; NSSM or Task Scheduler on Windows).
+- Turn off sleep and hibernate, and make sure the bot starts after a reboot
+  (Windows Update reboots happen).
+- Back up the SQLite file every night to a cloud folder (OneDrive or Google
+  Drive).
+- For a Mini App later, a free Cloudflare Tunnel provides HTTPS without
+  opening any ports.
+
+**Understanding messages without Claude: three tiers that can be combined**
+1. **Rule-based parser (always on, free).** Split messages on commas and new
+   lines, and read quantities ("2 milk", "milk x2"). Fixed prefixes handle
+   the other actions: `-milk` or "remove milk" removes an item, and "bought
+   milk" or ✅ marks it done. Item names are fuzzy-matched (rapidfuzz)
+   against a dictionary built from the supermarket price files themselves,
+   which also catches typos and handles Hebrew. This covers most messages if
+   you both follow the simple format.
+2. **Barcode photos instead of "AI vision".** Photograph the barcode on the
+   empty package. `pyzbar`/`zxing` decodes it locally, and the barcode gives
+   an exact product match in the price database. This is more accurate than
+   an LLM for products.
+   OCR (Tesseract, which supports Hebrew) can read *printed* lists, but it is
+   poor at handwriting.
+3. **Local LLM on the PC (optional).** Ollama running an open model handles
+   free-form messages the rules can't parse. Hebrew quality depends on the
+   model, and reading photos requires a vision model plus enough RAM, ideally
+   with a GPU. Use it only as a fallback for unparsed messages.
+
+What you lose without Claude: understanding of loose phrasing ("we're out of
+the stuff for the kids' sandwiches") and reading of handwritten photos.
+
 ## 7. Open questions
 1. **Country.** Is this Israel? If not, the price source changes: there might
    be a public API, a price-comparison site to scrape, or we may need to
