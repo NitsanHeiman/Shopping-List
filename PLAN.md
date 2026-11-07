@@ -241,6 +241,21 @@ in, so there is no port forwarding, public IP, domain or certificate.
    free-form messages the rules can't parse. Hebrew quality depends on the
    model, and reading photos requires a vision model plus enough RAM, ideally
    with a GPU. Use it only as a fallback for unparsed messages.
+   **With a gaming GPU (8 GB or more of VRAM), the local LLM can be the main
+   parser**, so free wording works:
+   - Turning a message into JSON is an easy task. 8–14B open models (e.g. the
+     Gemma / Qwen families) handle it well, especially with Ollama's
+     JSON-schema structured output.
+   - The rule-based parser stays as a fallback.
+   - Rough fit: 8 GB VRAM → 7–9B models; 12 GB → ~12B models; 16–24 GB →
+     14–27B models (4-bit quantized).
+   - Hebrew is the weak spot of small models, so benchmark on our own sample
+     messages before choosing one. Also consider Hebrew-tuned models (e.g.
+     Dicta's DictaLM).
+   - Handwritten Hebrew photos are still unreliable with local vision models.
+     Use barcode photos for products.
+   - Set Ollama `keep_alive` to a few minutes so the model frees VRAM when you
+     want to game.
 
 What you lose without Claude: understanding of loose phrasing ("we're out of
 the stuff for the kids' sandwiches") and reading of handwritten photos.
